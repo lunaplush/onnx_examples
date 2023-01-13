@@ -34,12 +34,13 @@ t_start = time.time()
 onnx_output = []
 for n in news_list:
     inputs = tokenizer(n)
-    input_feed = {"input_ids": np.array(inputs["input_ids"]).reshape(1, -1)}
+    input_feed = {"input_ids": np.array(inputs["input_ids"], int).reshape(1, -1)}
     try:
         output = session.run(
             output_names=["output"],
             input_feed=input_feed
         )[0][0]
+
         if FLAG_SOFTMAX_USE:
             output = softmax(output)
         onnx_output.append(output)
